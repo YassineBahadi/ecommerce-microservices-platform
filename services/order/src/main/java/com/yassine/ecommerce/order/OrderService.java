@@ -48,7 +48,7 @@ public class OrderService {
             );
         }
 
-        // start payment-process
+        // todo start payment-process
 
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
