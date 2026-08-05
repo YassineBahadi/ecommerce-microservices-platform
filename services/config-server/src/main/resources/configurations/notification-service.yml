@@ -9,7 +9,6 @@ spring:
       properties:
         spring.json.trusted.packages: '*'
         spring.json.type.mapping: orderConfirmation:com.yassine.ecommerce.kafka.order.OrderConfirmation,paymentConfirmation:com.yassine.ecommerce.kafka.payment.PaymentConfirmation
-#        spring.json.type.mapping: orderConfirmation:com.yassine.ecommerce.kafka.OrderConfirmation,paymentConfirmation:com.yassine.ecommerce.notification.PaymentNotificationRequest
   mongodb:
     username: yassine
     password: yassine
