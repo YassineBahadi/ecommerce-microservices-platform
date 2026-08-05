@@ -9,13 +9,14 @@ spring:
       properties:
         spring.json.trusted.packages: '*'
         spring.json.type.mapping: orderConfirmation:com.yassine.ecommerce.kafka.order.OrderConfirmation,paymentConfirmation:com.yassine.ecommerce.kafka.payment.PaymentConfirmation
-  mongodb:
-    username: yassine
-    password: yassine
-    host: localhost
-    port: 27017
-    database: notification
-    authentication-database: admin
+  data:
+    mongodb:
+      username: yassine
+      password: yassine
+      host: localhost
+      port: 27017
+      database: notification
+      authentication-database: admin
   mail:
     host: localhost
     port: 1025
