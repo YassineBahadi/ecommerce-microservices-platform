@@ -4,7 +4,7 @@
 
 ### Une architecture microservices event-driven, sécurisée et observable — construite avec Spring Boot & Spring Cloud
 
-[![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2023.x-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/projects/spring-cloud)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -93,7 +93,7 @@ Ce découplage permet au **Notification Service** de rester totalement indépend
 <td valign="top" width="50%">
 
 **Backend**
-- ☕ Java 17
+- ☕ Java 21
 - 🍃 Spring Boot 3.2.5
 - ☁️ Spring Cloud (Config, Eureka, Gateway, OpenFeign)
 - 🗃️ Spring Data JPA / Spring Data MongoDB
@@ -124,12 +124,12 @@ Ce découplage permet au **Notification Service** de rester totalement indépend
 
 ## 📦 Prérequis
 
-| Outil | Version minimale |
-| :--- | :--- |
-| Java (JDK) | 17+ |
-| Maven | 3.8+ |
+| Outil | Version minimale        |
+| :--- |:------------------------|
+| Java (JDK) | 21+                     |
+| Maven | 3.8+                    |
 | Docker & Docker Compose | Dernière version stable |
-| Postman | Pour les tests API |
+| Postman | Pour les tests API      |
 
 ---
 
