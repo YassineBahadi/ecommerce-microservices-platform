@@ -19,7 +19,7 @@
         </processorPath>
         <module name="notification" />
       </profile>
-      <profile name="Annotation profile for customer" enabled="true">
+      <profile name="Annotation profile for product" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -28,8 +28,8 @@
         </processorPath>
         <module name="product" />
         <module name="payment" />
-        <module name="customer" />
         <module name="order" />
+        <module name="customer" />
       </profile>
     </annotationProcessing>
   </component>
