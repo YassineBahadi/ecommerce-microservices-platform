@@ -10,9 +10,11 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Kafka](https://img.shields.io/badge/Apache%20Kafka-Event%20Driven-231F20?style=for-the-badge&logo=apachekafka&logoColor=white)](https://kafka.apache.org/)
 [![Keycloak](https://img.shields.io/badge/Keycloak-OAuth2%2FJWT-4D4D4D?style=for-the-badge&logo=keycloak&logoColor=white)](https://www.keycloak.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-**[Architecture](#-architecture)** · **[Flux de données](#-flux-de-données)** · **[Stack technique](#️-stack-technique)** · **[Installation](#-installation--lancement)** · **[Authentification](#-authentification)** · **[API](#-endpoints-disponibles)**
+**[Architecture](#-architecture)** · **[Flux de données](#-flux-de-données)** · **[Stack technique](#️-stack-technique)** · **[Frontend](#-frontend-nextjs)** · **[Installation](#-installation--lancement)** · **[Authentification](#-authentification)** · **[API](#-endpoints-disponibles)**
 
 </div>
 
@@ -20,7 +22,7 @@
 
 ## 📖 À propos du projet
 
-**E-Commerce Microservices Platform** est une application backend distribuée qui modélise un système e-commerce complet — gestion des clients, du catalogue produit, des commandes, des paiements et des notifications — en appliquant les patterns d'architecture microservices utilisés en production : **service discovery**, **configuration centralisée**, **API Gateway**, **communication hybride sync/async**, **sécurité OAuth2/JWT** et **distributed tracing**.
+**E-Commerce Microservices Platform** est une application full-stack qui modélise un système e-commerce complet — gestion des clients, du catalogue produit, des commandes, des paiements et des notifications — en appliquant les patterns d'architecture microservices utilisés en production : **service discovery**, **configuration centralisée**, **API Gateway**, **communication hybride sync/async**, **sécurité OAuth2/JWT** et **distributed tracing**, le tout consommé par un **frontend Next.js 14** typé et orienté performance.
 
 Le projet a été conçu comme un terrain d'expérimentation réaliste pour maîtriser les défis concrets des systèmes distribués : cohérence des données entre services, découplage via event-driven design, résilience, et observabilité.
 
@@ -122,14 +124,118 @@ Ce découplage permet au **Notification Service** de rester totalement indépend
 
 ---
 
+## 🖥️ Frontend (Next.js)
+
+Le frontend consomme l'API exposée par la Gateway et gère l'authentification via **NextAuth** branché sur **Keycloak**, réutilisant le même flow OAuth2/JWT que le backend.
+
+### Structure du projet
+
+```
+ecommerce-frontend/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   └── register/
+│   │       └── page.tsx
+│   ├── (shop)/
+│   │   ├── page.tsx
+│   │   ├── products/
+│   │   │   ├── page.tsx
+│   │   │   └── [id]/
+│   │   │       └── page.tsx
+│   │   ├── cart/
+│   │   │   └── page.tsx
+│   │   └── checkout/
+│   │       └── page.tsx
+│   ├── (dashboard)/
+│   │   └── admin/
+│   │       ├── products/
+│   │       │   └── page.tsx
+│   │       ├── orders/
+│   │       │   └── page.tsx
+│   │       └── customers/
+│   │           └── page.tsx
+│   ├── api/
+│   │   └── auth/
+│   │       └── [...nextauth]/
+│   │           └── route.ts
+│   ├── layout.tsx
+│   ├── providers.tsx
+│   └── globals.css
+├── components/
+│   ├── ui/              # shadcn/ui components
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   │   └── Sidebar.tsx
+│   ├── shop/
+│   │   ├── ProductCard.tsx
+│   │   ├── ProductList.tsx
+│   │   ├── ProductDetail.tsx
+│   │   ├── CartItem.tsx
+│   │   └── CartSummary.tsx
+│   ├── dashboard/
+│   │   ├── ProductTable.tsx
+│   │   └── OrderTable.tsx
+│   └── forms/
+│       ├── LoginForm.tsx
+│       └── CheckoutForm.tsx
+├── hooks/
+│   ├── useAuth.ts
+│   ├── useCart.ts
+│   └── useProducts.ts
+├── services/
+│   ├── api-client.ts
+│   ├── customer.service.ts
+│   ├── product.service.ts
+│   ├── order.service.ts
+│   └── payment.service.ts
+├── store/
+│   └── cartStore.ts
+├── types/
+│   ├── customer.ts
+│   ├── product.ts
+│   ├── order.ts
+│   └── api.ts
+├── lib/
+│   ├── utils.ts
+│   └── validations.ts
+├── config/
+│   └── site.ts
+├── public/
+├── .env.local
+├── tailwind.config.ts
+├── next.config.js
+├── package.json
+└── README.md
+```
+
+### Choix techniques
+
+| Besoin | Technologie | Justification |
+| :--- | :--- | :--- |
+| **Architecture** | Next.js 14 (App Router) | Server Components, SEO, routing basé sur le système de fichiers |
+| **Typage** | TypeScript | Fiabilité du code, contrats partagés avec les DTOs backend |
+| **UI** | shadcn/ui + Tailwind CSS | Composants accessibles et personnalisables sans surcharge runtime |
+| **État global** | Zustand | Gestion légère du panier (`cartStore`), sans boilerplate Redux |
+| **Données serveur** | TanStack Query | Cache, revalidation et synchronisation avec l'API Gateway |
+| **Authentification** | NextAuth + Keycloak | Réutilisation du provider OAuth2/JWT déjà en place côté backend |
+| **Animations** | Framer Motion | Transitions fluides sur le catalogue et le checkout |
+
+Le découpage par **route groups** (`(auth)`, `(shop)`, `(dashboard)`) sépare clairement l'espace public, l'espace client et le back-office admin, chacun avec son propre layout et ses propres guards d'authentification.
+
+---
+
 ## 📦 Prérequis
 
-| Outil | Version minimale        |
-| :--- |:------------------------|
-| Java (JDK) | 21+                     |
-| Maven | 3.8+                    |
+| Outil | Version minimale |
+| :--- | :--- |
+| Java (JDK) | 21+ |
+| Node.js | 18+ |
+| Maven | 3.8+ |
 | Docker & Docker Compose | Dernière version stable |
-| Postman | Pour les tests API      |
+| Postman | Pour les tests API |
 
 ---
 
@@ -150,7 +256,7 @@ docker-compose up -d
 
 Cette commande provisionne : **PostgreSQL**, **MongoDB**, **Kafka & Zookeeper**, **MailDev**, **Zipkin**, **Keycloak**.
 
-### 3. Démarrer les microservices
+### 3. Démarrer les microservices (backend)
 
 > ⚠️ L'ordre ci-dessous respecte les dépendances de démarrage (config avant discovery, discovery avant les services métier).
 
@@ -165,13 +271,25 @@ mvn spring-boot:run -pl notification-service
 mvn spring-boot:run -pl gateway-service
 ```
 
-### 4. Configurer Keycloak
+### 4. Démarrer le frontend
+
+```bash
+cd ecommerce-frontend
+npm install
+cp .env.example .env.local   # renseigner NEXTAUTH_URL, NEXTAUTH_SECRET, NEXT_PUBLIC_API_URL, KEYCLOAK_*
+npm run dev
+```
+
+Le frontend est accessible sur `http://localhost:3000` et consomme l'API via la Gateway (`http://localhost:8222`).
+
+### 5. Configurer Keycloak
 
 1. Accéder à la console d'administration : `http://localhost:9098`
 2. Se connecter avec `admin` / `admin`
 3. Créer un **Realm** : `micro-service`
-4. Créer un **Client** : `microservices-api` avec *Client Authentication* activé
-5. Récupérer le **Client Secret** depuis l'onglet *Credentials*
+4. Créer un **Client** : `microservices-api` avec *Client Authentication* activé (pour le backend)
+5. Créer un second **Client** : `ecommerce-frontend` (type *public* ou *confidential* selon le flow NextAuth choisi)
+6. Récupérer les **Client Secrets** depuis l'onglet *Credentials* de chaque client
 
 ---
 
@@ -236,10 +354,10 @@ Chaque requête traversant le système peut être tracée de bout en bout, servi
 
 ---
 
-## 📁 Structure du projet (monorepo)
+## 📁 Structure globale des dépôts
 
 ```
-e-commerce-microservices/
+e-commerce-microservices/          # Backend — monorepo Maven
 ├── config-server/
 ├── discovery-server/
 ├── gateway-service/
@@ -250,6 +368,15 @@ e-commerce-microservices/
 ├── notification-service/
 ├── docker-compose.yml
 └── README.md
+
+ecommerce-frontend/                # Frontend — Next.js 14 (voir structure détaillée ci-dessus)
+├── app/
+├── components/
+├── hooks/
+├── services/
+├── store/
+├── types/
+└── package.json
 ```
 
 ---
@@ -263,6 +390,7 @@ e-commerce-microservices/
 - [ ] Ajouter des tests unitaires et d'intégration (JUnit 5, Testcontainers)
 - [ ] Gérer les rôles utilisateurs (`ADMIN`, `USER`) dans Keycloak
 - [ ] Mettre en place un pipeline **CI/CD** (GitHub Actions)
+- [ ] Ajouter des tests frontend (Vitest / Playwright) et le mode SSR pour les pages produits
 
 ---
 
