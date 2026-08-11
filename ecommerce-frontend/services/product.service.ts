@@ -16,3 +16,19 @@ export async function getProducts(): Promise<Product[]> {
 
   return response.json();
 }
+
+/**
+ * Récupère un produit par son ID
+ */
+export async function getProductById(id: number): Promise<Product> {
+  const response = await fetch(`/api/products/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la récupération du produit');
+  }
+
+  return response.json();
+}

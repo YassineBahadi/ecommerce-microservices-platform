@@ -1,37 +1,29 @@
 'use client';
 
-import Link from 'next/link';
-import { ShoppingCart, ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
-
 import { Product } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { useCartStore } from '@/store/cartStore';
+import { ShoppingCart, ArrowLeft, Package, Tag, ShoppingBag } from 'lucide-react';
+import Link from 'next/link';
+import { toast } from 'sonner';
 
 interface ProductDetailProps {
   product: Product;
 }
 
-export function ProductDetail({
-  product,
-}: ProductDetailProps) {
-  const addItem = useCartStore(
-    (state) => state.addItem
-  );
+export function ProductDetail({ product }: ProductDetailProps) {
+  const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = () => {
-    // Vérifier le stock
     if (product.availableQuantity <= 0) {
       toast.error('Stock épuisé', {
-        description:
-          "Ce produit n'est plus disponible.",
+        description: 'Ce produit n\'est plus disponible.',
       });
-
       return;
     }
 
-    // Ajouter le produit au panier
     addItem({
       productId: product.id,
       name: product.name,
@@ -39,82 +31,81 @@ export function ProductDetail({
       availableQuantity: product.availableQuantity,
     });
 
-    // Notification de succès
     toast.success('Ajouté au panier', {
       description: `${product.name} a été ajouté à votre panier.`,
     });
   };
 
+  const isInStock = product.availableQuantity > 0;
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Retour */}
+    <div className="space-y-6">
+      {/* Lien de retour */}
       <Link
-        href="/products"
-        className="mb-6 inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
+        href="/"
+        className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Retour aux produits
       </Link>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {/* Image placeholder */}
+        {/* Image / Zone visuelle */}
         <div className="flex aspect-square items-center justify-center rounded-lg bg-muted">
-          <span className="text-6xl">📦</span>
+          <Package className="h-32 w-32 text-muted-foreground/50" />
         </div>
 
-        {/* Product information */}
+        {/* Informations */}
         <div className="space-y-6">
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-bold">
-                {product.name}
-              </h1>
-
-              <Badge variant="secondary">
-                {product.categoryName}
-              </Badge>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-3xl font-bold">{product.name}</h1>
+              <Badge variant="secondary">{product.categoryName}</Badge>
             </div>
-
-            <p className="mt-2 text-muted-foreground">
-              {product.description}
-            </p>
+            <p className="mt-2 text-muted-foreground">{product.description}</p>
           </div>
 
-          {/* Price and stock */}
-          <div className="space-y-2">
+          <Separator />
+
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-3xl font-bold">
                 {product.price.toFixed(2)} €
               </span>
-
-              <Badge
-                variant={
-                  product.availableQuantity > 0
-                    ? 'default'
-                    : 'destructive'
-                }
-              >
-                {product.availableQuantity > 0
-                  ? `Stock: ${product.availableQuantity}`
-                  : 'Rupture de stock'}
+              <Badge variant={isInStock ? 'default' : 'destructive'} className="text-sm">
+                {isInStock ? `${product.availableQuantity} en stock` : 'Rupture de stock'}
               </Badge>
             </div>
 
-            <p className="text-sm text-muted-foreground">
-              Catégorie: {product.categoryName}
-            </p>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <Tag className="h-4 w-4" />
+                <span>Catégorie : {product.categoryName}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <ShoppingBag className="h-4 w-4" />
+                <span>Référence : #{product.id}</span>
+              </div>
+            </div>
           </div>
 
-          {/* Add to cart */}
+          <Separator />
+
           <Button
             size="lg"
             className="w-full"
             onClick={handleAddToCart}
-            disabled={product.availableQuantity <= 0}
+            disabled={!isInStock}
           >
             <ShoppingCart className="mr-2 h-5 w-5" />
-            Ajouter au panier
+            {isInStock ? 'Ajouter au panier' : 'Indisponible'}
           </Button>
+
+          {!isInStock && (
+            <p className="text-sm text-destructive">
+              Ce produit n'est malheureusement plus disponible.
+            </p>
+          )}
         </div>
       </div>
     </div>

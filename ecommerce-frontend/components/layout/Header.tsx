@@ -32,7 +32,7 @@ export function Header() {
     <header className="border-b bg-background">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="text-xl font-bold">
-          🛒 E-Shop
+          Y-Shop
         </Link>
 
         <div className="flex items-center gap-4">
