@@ -31,7 +31,7 @@ export const useCartStore = create<CartState>()(
         if (existingItem) {
           const newQuantity = existingItem.quantity + (item.quantity || 1);
           if (newQuantity > existingItem.availableQuantity) {
-            return; // Ne pas dépasser le stock disponible
+            return;
           }
           set({
             items: currentItems.map((i) =>
@@ -85,7 +85,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: 'cart-storage', // Nom dans localStorage
+      name: 'cart-storage',
     }
   )
 );

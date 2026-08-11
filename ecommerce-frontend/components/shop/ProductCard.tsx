@@ -1,18 +1,12 @@
 'use client';
 
 import { Product } from '@/types/product';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useCartStore } from '@/store/cartStore';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import { useCartStore } from '@/store/cartStore';
 import { toast } from 'sonner';
 
 interface ProductCardProps {
@@ -25,9 +19,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = () => {
     if (product.availableQuantity <= 0) {
       toast.error('Stock épuisé', {
-        description: 'Ce produit n’est plus disponible.',
+        description: 'Ce produit n\'est plus disponible.',
       });
-
       return;
     }
 
@@ -44,34 +37,34 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1">
       <Link href={`/products/${product.id}`}>
-        <CardHeader>
-          <CardTitle>{product.name}</CardTitle>
+        <CardHeader className="pb-2">
+          <div className="flex items-start justify-between">
+            <CardTitle className="line-clamp-1 text-lg">{product.name}</CardTitle>
+            <Badge variant="secondary" className="shrink-0">
+              {product.categoryName}
+            </Badge>
+          </div>
+        </CardHeader>
+      </Link>
 
-          <Badge
-            variant={
-              product.availableQuantity > 0
-                ? 'default'
-                : 'destructive'
-            }
-          >
+      <CardContent>
+        <p className="line-clamp-2 text-sm text-muted-foreground">
+          {product.description}
+        </p>
+
+        <div className="mt-4 flex items-center justify-between">
+          <span className="text-2xl font-bold">
+            {product.price.toFixed(2)} €
+          </span>
+          <Badge variant={product.availableQuantity > 0 ? 'default' : 'destructive'}>
             {product.availableQuantity > 0
               ? `${product.availableQuantity} en stock`
               : 'Rupture'}
           </Badge>
-        </CardHeader>
-
-        <CardContent className="flex-1">
-          <p className="text-muted-foreground">
-            {product.description}
-          </p>
-
-          <p className="mt-4 text-xl font-bold">
-            {product.price.toFixed(2)} €
-          </p>
-        </CardContent>
-      </Link>
+        </div>
+      </CardContent>
 
       <CardFooter>
         <Button

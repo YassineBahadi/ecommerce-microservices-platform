@@ -1,14 +1,24 @@
-import { productService } from '@/services/product.service';
+'use client';
+
+import { useProducts } from '@/hooks/useProducts';
 import { ProductList } from '@/components/shop/ProductList';
 
-export const dynamic = 'force-dynamic';
+export default function HomePage() {
+  const { data: products, isLoading, error } = useProducts();
 
-export default async function HomePage() {
-  const products = await productService.getAllProducts();
+  if (error) {
+    return (
+      <div className="py-12 text-center">
+        <p className="text-destructive">
+          Erreur lors du chargement des produits : {error.message}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
-      <section className="text-center py-12 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg">
+      <section className="rounded-lg bg-gradient-to-r from-primary/5 to-primary/10 py-12 text-center">
         <h1 className="text-4xl font-bold tracking-tight">
           Bienvenue sur E-Shop
         </h1>
@@ -18,8 +28,8 @@ export default async function HomePage() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-semibold mb-6">Nos Produits</h2>
-        <ProductList products={products} />
+        <h2 className="mb-6 text-2xl font-semibold">Nos Produits</h2>
+        <ProductList products={products || []} isLoading={isLoading} />
       </section>
     </div>
   );
