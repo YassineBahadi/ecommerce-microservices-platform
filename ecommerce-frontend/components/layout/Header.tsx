@@ -1,9 +1,9 @@
 'use client';
 
+import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { useAuth } from '@/hooks/useAuth';
-import { useCartStore } from '@/store/cartStore';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,21 +12,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { ShoppingCart, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { LogOut, User, ShoppingCart } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useCartStore } from '@/store/cartStore'; // on le créera plus tard
 
 export function Header() {
-  const { user, isAuthenticated, logout } = useAuth();
-  const totalItems = useCartStore((state) => state.getTotalItems());
+  const { data: session, status } = useSession();
+  const totalItems = useCartStore((state) => state.getTotalItems()); // temporaire
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase();
-  };
+  const initials = session?.user?.name
+    ? session.user.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+    : 'U';
 
   return (
     <header className="border-b bg-background">
@@ -47,32 +47,24 @@ export function Header() {
             </Button>
           </Link>
 
-          {isAuthenticated ? (
+          {status === 'authenticated' ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback>
-                      {user?.name ? getInitials(user.name) : 'U'}
-                    </AvatarFallback>
+                    <AvatarFallback>{initials}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium">{user?.name}</p>
-                    <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    <p className="text-sm font-medium">{session.user?.name}</p>
+                    <p className="text-xs text-muted-foreground">{session.user?.email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard" className="cursor-pointer">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    Tableau de bord
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => logout()}>
+                <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Déconnexion
                 </DropdownMenuItem>
