@@ -26,13 +26,12 @@ export default function CartPage() {
   const totalPrice = getTotalPrice();
 
   const handleCheckout = () => {
-    if (!isAuthenticated) {
-      router.push('/login?redirect=/checkout');
-      return;
-    }
-    router.push('/checkout');
-  };
-
+  if (!isAuthenticated) {
+    router.push('/login?redirect=/checkout');
+    return;
+  }
+  router.push('/checkout');
+};
   if (items.length === 0) {
     return (
       <div className="py-12 text-center">
@@ -97,9 +96,9 @@ export default function CartPage() {
             </CardContent>
             <CardFooter>
               <Button className="w-full" onClick={handleCheckout}>
-                Passer la commande
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+  Passer la commande
+  <ArrowRight className="ml-2 h-4 w-4" />
+</Button>
             </CardFooter>
           </Card>
         </div>

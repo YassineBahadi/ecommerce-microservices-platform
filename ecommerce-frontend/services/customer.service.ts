@@ -1,19 +1,31 @@
-import { apiClient } from './api-client';
-import { Customer, CustomerRequest } from '@/types/customer';
+import { CustomerRequest, Customer } from '@/types/customer';
 
-export const customerService = {
-  async createCustomer(customer: CustomerRequest): Promise<string> {
-    const response = await apiClient.post('/api/v1/customers', customer);
-    return response.data;
-  },
+export async function createCustomer(data: CustomerRequest): Promise<{ id: string }> {
+  const response = await fetch('/api/customers', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
 
-  async getCustomerById(id: string): Promise<Customer> {
-    const response = await apiClient.get(`/api/v1/customers/${id}`);
-    return response.data;
-  },
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la création du client');
+  }
 
-  async customerExists(id: string): Promise<boolean> {
-    const response = await apiClient.get(`/api/v1/customers/exists/${id}`);
-    return response.data;
-  },
-};
+  return response.json();
+}
+
+export async function getCustomerById(id: string): Promise<Customer> {
+  const response = await fetch(`/api/customers/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la récupération du client');
+  }
+
+  return response.json();
+}

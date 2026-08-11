@@ -1,24 +1,44 @@
-import { apiClient } from './api-client';
 import { OrderRequest, OrderResponse, OrderLineResponse } from '@/types/order';
 
-export const orderService = {
-  async createOrder(order: OrderRequest): Promise<number> {
-    const response = await apiClient.post('/api/v1/orders', order);
-    return response.data;
-  },
+export async function createOrder(data: OrderRequest): Promise<number> {
+  const response = await fetch('/api/orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
 
-  async getAllOrders(): Promise<OrderResponse[]> {
-    const response = await apiClient.get('/api/v1/orders');
-    return response.data;
-  },
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la création de la commande');
+  }
 
-  async getOrderById(id: number): Promise<OrderResponse> {
-    const response = await apiClient.get(`/api/v1/orders/${id}`);
-    return response.data;
-  },
+  return response.json();
+}
 
-  async getOrderLines(orderId: number): Promise<OrderLineResponse[]> {
-    const response = await apiClient.get(`/api/v1/order-lines/order/${orderId}`);
-    return response.data;
-  },
-};
+export async function getOrderById(id: number): Promise<OrderResponse> {
+  const response = await fetch(`/api/orders/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la récupération de la commande');
+  }
+
+  return response.json();
+}
+
+export async function getOrderLines(orderId: number): Promise<OrderLineResponse[]> {
+  const response = await fetch(`/api/order-lines/order/${orderId}`, {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la récupération des lignes de commande');
+  }
+
+  return response.json();
+}

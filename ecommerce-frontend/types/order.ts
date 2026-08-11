@@ -15,6 +15,11 @@ export interface OrderRequest {
   products: ProductPurchaseRequest[];
 }
 
+export interface ProductPurchaseRequest {
+  productId: number;
+  quantity: number;
+}
+
 export interface OrderResponse {
   id: number;
   reference: string;

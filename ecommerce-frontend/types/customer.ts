@@ -6,15 +6,15 @@ export interface Address {
 
 export interface Customer {
   id: string;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   address: Address;
 }
 
 export interface CustomerRequest {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   address: Address;
 }
