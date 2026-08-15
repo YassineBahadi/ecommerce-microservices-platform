@@ -9,8 +9,15 @@ import java.util.Optional;
 /**
  * @author pc
  **/
-@FeignClient(name = "customer-service",url="${application.config.customer-url}")
+@FeignClient(
+        name = "customer-service",
+        url = "${application.config.customer-url}",
+        configuration = FeignClientConfig.class
+)
 public interface CustomerClient {
+
     @GetMapping("/{customer-id}")
-    Optional<CustomerResponse> findCustomerById(@PathVariable("customer-id") String customerId );
+    Optional<CustomerResponse> findCustomerById(
+            @PathVariable("customer-id") String customerId
+    );
 }
