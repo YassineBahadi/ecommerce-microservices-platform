@@ -1,5 +1,5 @@
 import { OrderRequest, OrderResponse, OrderLineResponse } from '@/types/order';
-
+import { OrderDetail, OrderLineDetail } from '@/types/order';
 export async function createOrder(data: OrderRequest): Promise<number> {
   const response = await fetch('/api/orders', {
     method: 'POST',
@@ -17,7 +17,7 @@ export async function createOrder(data: OrderRequest): Promise<number> {
   return response.json();
 }
 
-export async function getOrderById(id: number): Promise<OrderResponse> {
+export async function getOrderById(id: number): Promise<OrderDetail> {
   const response = await fetch(`/api/orders/${id}`, {
     cache: 'no-store',
   });
@@ -30,7 +30,7 @@ export async function getOrderById(id: number): Promise<OrderResponse> {
   return response.json();
 }
 
-export async function getOrderLines(orderId: number): Promise<OrderLineResponse[]> {
+export async function getOrderLines(orderId: number): Promise<OrderLineDetail[]> {
   const response = await fetch(`/api/order-lines/order/${orderId}`, {
     cache: 'no-store',
   });
@@ -42,3 +42,4 @@ export async function getOrderLines(orderId: number): Promise<OrderLineResponse[
 
   return response.json();
 }
+

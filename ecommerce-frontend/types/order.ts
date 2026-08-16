@@ -32,3 +32,20 @@ export interface OrderLineResponse {
   id: number;
   quantity: number;
 }
+
+export interface OrderDetail {
+  id: number;
+  reference: string;
+  amount: number;
+  paymentMethod: PaymentMethod;
+  customerId: string;
+  createdDate?: string;
+  lastModifiedDate?: string;
+}
+
+// Ajouter pour les lignes de commande
+export interface OrderLineDetail {
+  id: number;
+  productId: number;
+  quantity: number;
+}
