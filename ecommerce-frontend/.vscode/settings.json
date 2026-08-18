@@ -1,0 +1,74 @@
+{
+    "workbench.colorCustomizations": {
+    /* === Pure Void Backgrounds === */
+    "editor.background": "#000000",
+    "sideBar.background": "#000000",
+    "sideBar.border": "#00FF4144",
+    "sideBarSectionHeader.background": "#050B05",
+    "sideBarSectionHeader.foreground": "#00FF41",
+
+    /* === Minimalist Title & Activity Bar === */
+    "titleBar.activeBackground": "#000000",
+    "titleBar.activeForeground": "#00FF41",
+    "titleBar.inactiveBackground": "#000000",
+    "titleBar.inactiveForeground": "#155325",
+    "titleBar.border": "#00FF4122",
+    
+    "activityBar.background": "#000000",
+    "activityBar.foreground": "#00FF41",
+    "activityBar.inactiveForeground": "#155325",
+    "activityBar.activeBorder": "#00FF41",
+    "activityBarBadge.background": "#00FF41",
+    "activityBarBadge.foreground": "#000000",
+
+    /* === Terminal Tabs === */
+    "editorGroupHeader.tabsBackground": "#000000",
+    "editorGroupHeader.tabsBorder": "#00FF4133",
+    "tab.inactiveBackground": "#000000",
+    "tab.inactiveForeground": "#2E7D32",
+    "tab.activeBackground": "#050B05",
+    "tab.activeForeground": "#00FF41",
+    "tab.activeBorderTop": "#00FF41",
+    "tab.border": "#00FF4111",
+
+    /* === Phosphor Code Focus === */
+    "editor.lineHighlightBackground": "#00FF410F",
+    "editorCursor.foreground": "#00FF41",
+    "editorLineNumber.foreground": "#155325",
+    "editorLineNumber.activeForeground": "#00FF41",
+    "editorSelectionBackground": "#00FF4133",
+    "editor.selectionHighlightBackground": "#00FF411A",
+    "editorIndentGuide.activeBackground1": "#00FF4166",
+
+    /* === Mainframe Terminal === */
+    "terminal.background": "#000000",
+    "terminal.foreground": "#00FF41",
+    "terminalCursor.foreground": "#00FF41",
+    "terminal.selectionBackground": "#00FF4144",
+
+    /* === Status & Exploit Alert Indicators === */
+    "statusBar.background": "#000000",
+    "statusBar.foreground": "#00FF41",
+    "statusBar.border": "#00FF4133",
+    "statusBar.debuggingBackground": "#FF0055",
+    "statusBar.debuggingForeground": "#FFFFFF",
+    "statusBar.noFolderBackground": "#000000",
+    "statusBar.noFolderForeground": "#155325",
+
+    /* === System Badges & Git Status === */
+    "badge.background": "#00FF41",
+    "badge.foreground": "#000000",
+    "progressBar.background": "#00FF41",
+    "gitDecoration.addedResourceForeground": "#00FF41",
+    "gitDecoration.modifiedResourceForeground": "#FFB000",
+    "gitDecoration.deletedResourceForeground": "#FF0055",
+    "gitDecoration.untrackedResourceForeground": "#00E5FF",
+
+    /* === Root Command Overlay === */
+    "quickInput.background": "#000000",
+    "quickInput.border": "#00FF41",
+    "quickInputList.focusBackground": "#00FF4122",
+    "quickInputList.focusForeground": "#00FF41",
+    "widget.shadow": "#00000000"
+    }
+}

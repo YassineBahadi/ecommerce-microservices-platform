@@ -4,6 +4,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Package, LayoutDashboard } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,10 +65,17 @@ export function Header() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Déconnexion
-                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+  <Link href="/orders" className="cursor-pointer">
+    <Package className="mr-2 h-4 w-4" />
+    Mes commandes
+  </Link>
+</DropdownMenuItem>
+<DropdownMenuSeparator />
+<DropdownMenuItem onClick={() => signOut()}>
+  <LogOut className="mr-2 h-4 w-4" />
+  Déconnexion
+</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

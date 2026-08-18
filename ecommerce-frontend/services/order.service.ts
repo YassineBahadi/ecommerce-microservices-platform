@@ -43,3 +43,44 @@ export async function getOrderLines(orderId: number): Promise<OrderLineDetail[]>
   return response.json();
 }
 
+
+export async function getAllOrders(): Promise<OrderResponse[]> {
+  const response = await fetch('/api/orders', {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Erreur lors de la récupération des commandes');
+  }
+
+  return response.json();
+}
+
+// // Récupérer une commande par ID
+// export async function getOrderById(id: number): Promise<OrderDetail> {
+//   const response = await fetch(`/api/orders/${id}`, {
+//     cache: 'no-store',
+//   });
+
+//   if (!response.ok) {
+//     const error = await response.json();
+//     throw new Error(error.message || 'Erreur lors de la récupération de la commande');
+//   }
+
+//   return response.json();
+// }
+
+// // Récupérer les lignes d'une commande
+// export async function getOrderLines(orderId: number): Promise<OrderLineDetail[]> {
+//   const response = await fetch(`/api/order-lines/order/${orderId}`, {
+//     cache: 'no-store',
+//   });
+
+//   if (!response.ok) {
+//     const error = await response.json();
+//     throw new Error(error.message || 'Erreur lors de la récupération des lignes de commande');
+//   }
+
+//   return response.json();
+// }
